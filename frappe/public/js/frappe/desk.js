@@ -139,6 +139,7 @@ frappe.Application = class Application {
 
 		// listen to build errors
 		this.setup_build_events();
+		this.ensure_nav_bar();
 
 		if (frappe.sys_defaults.email_user_password) {
 			var email_list = frappe.sys_defaults.email_user_password.split(",");
@@ -356,6 +357,24 @@ frappe.Application = class Application {
 		if (frappe.boot && frappe.boot.home_page !== "setup-wizard") {
 			frappe.frappe_toolbar = new frappe.ui.toolbar.Toolbar();
 		}
+	}
+	ensure_nav_bar() {
+		if (frappe.boot?.home_page === "setup-wizard") {
+			return;
+		}
+
+		let attempts = 0;
+		const ensure = () => {
+			if (!frappe.frappe_toolbar || !$("header.navbar").length) {
+				frappe.frappe_toolbar = new frappe.ui.toolbar.Toolbar();
+			}
+
+			if (!$("header.navbar").length && attempts++ < 20) {
+				setTimeout(ensure, 250);
+			}
+		};
+
+		setTimeout(ensure, 0);
 	}
 	logout() {
 		var me = this;
