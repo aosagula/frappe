@@ -37,6 +37,7 @@ frappe.Application = class Application {
 		this.load_bootinfo();
 		this.load_user_permissions();
 		this.make_nav_bar();
+		this.ensure_nav_bar();
 		this.set_favicon();
 		this.set_fullwidth_if_enabled();
 		this.add_browser_class();
