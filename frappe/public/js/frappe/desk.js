@@ -363,11 +363,18 @@ frappe.Application = class Application {
 			return;
 		}
 
-		setTimeout(() => {
+		let attempts = 0;
+		const ensure = () => {
 			if (!frappe.frappe_toolbar || !$("header.navbar").length) {
 				frappe.frappe_toolbar = new frappe.ui.toolbar.Toolbar();
 			}
-		}, 0);
+
+			if (!$("header.navbar").length && attempts++ < 20) {
+				setTimeout(ensure, 250);
+			}
+		};
+
+		setTimeout(ensure, 0);
 	}
 	logout() {
 		var me = this;
