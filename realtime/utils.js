@@ -4,7 +4,15 @@ function get_url(socket, path) {
 	if (!path) {
 		path = "";
 	}
-	return socket.request.headers.origin + path;
+	const origin = socket.request.headers.origin;
+	if (origin) {
+		return origin + path;
+	}
+	// Fallback for same-origin requests that don't include the Origin header
+	const proto = socket.request.headers["x-forwarded-proto"] || "http";
+	const host =
+		socket.request.headers["x-forwarded-host"] || socket.request.headers.host;
+	return `${proto}://${host}${path}`;
 }
 
 // Authenticates a partial request created using superagent
