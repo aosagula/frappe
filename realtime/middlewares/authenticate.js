@@ -13,7 +13,8 @@ function authenticate_with_frappe(socket, next) {
 		next(new Error("Invalid namespace"));
 	}
 
-	if (get_hostname(socket.request.headers.host) != get_hostname(socket.request.headers.origin)) {
+	const origin = socket.request.headers.origin;
+	if (origin && get_hostname(socket.request.headers.host) != get_hostname(origin)) {
 		next(new Error("Invalid origin"));
 		return;
 	}
