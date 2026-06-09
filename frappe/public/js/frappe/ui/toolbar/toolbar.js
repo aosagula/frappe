@@ -72,7 +72,7 @@ frappe.ui.toolbar.Toolbar = class {
 	}
 
 	setup_help() {
-		if (!frappe.boot.desk_settings.notifications) {
+		if (!frappe.boot.desk_settings?.notifications) {
 			// hide the help section
 			$(".navbar .vertical-bar").removeClass("d-sm-block");
 			$(".dropdown-help").removeClass("d-lg-block");
@@ -153,7 +153,7 @@ frappe.ui.toolbar.Toolbar = class {
 	}
 
 	setup_awesomebar() {
-		if (frappe.boot.desk_settings.search_bar) {
+		if (frappe.boot.desk_settings?.search_bar) {
 			let awesome_bar = new frappe.search.AwesomeBar();
 			awesome_bar.setup("#navbar-search");
 
@@ -171,7 +171,7 @@ frappe.ui.toolbar.Toolbar = class {
 	}
 
 	setup_notifications() {
-		if (frappe.boot.desk_settings.notifications && frappe.session.user !== "Guest") {
+		if (frappe.boot.desk_settings?.notifications && frappe.session.user !== "Guest") {
 			this.notifications = new frappe.ui.Notifications();
 		}
 	}

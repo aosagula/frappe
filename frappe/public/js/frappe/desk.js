@@ -356,7 +356,11 @@ frappe.Application = class Application {
 	make_nav_bar() {
 		// toolbar
 		if (frappe.boot && frappe.boot.home_page !== "setup-wizard") {
-			frappe.frappe_toolbar = new frappe.ui.toolbar.Toolbar();
+			try {
+				frappe.frappe_toolbar = new frappe.ui.toolbar.Toolbar();
+			} catch (e) {
+				console.error("Navbar initial render failed:", e);
+			}
 		}
 	}
 	ensure_nav_bar() {
@@ -367,7 +371,11 @@ frappe.Application = class Application {
 		let attempts = 0;
 		const ensure = () => {
 			if (!frappe.frappe_toolbar || !$("header.navbar").length) {
-				frappe.frappe_toolbar = new frappe.ui.toolbar.Toolbar();
+				try {
+					frappe.frappe_toolbar = new frappe.ui.toolbar.Toolbar();
+				} catch (e) {
+					console.error("Navbar render failed (attempt " + attempts + "):", e);
+				}
 			}
 
 			if (!$("header.navbar").length && attempts++ < 20) {
