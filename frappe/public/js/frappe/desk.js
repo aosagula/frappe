@@ -355,11 +355,13 @@ frappe.Application = class Application {
 	}
 	make_nav_bar() {
 		// toolbar
+		console.log("[navbar] make_nav_bar boot:", !!frappe.boot, "home_page:", frappe.boot?.home_page);
 		if (frappe.boot && frappe.boot.home_page !== "setup-wizard") {
 			try {
 				frappe.frappe_toolbar = new frappe.ui.toolbar.Toolbar();
+				console.log("[navbar] Toolbar created OK, header.navbar:", $("header.navbar").length);
 			} catch (e) {
-				console.error("Navbar initial render failed:", e);
+				console.error("[navbar] initial render failed:", e);
 			}
 		}
 	}

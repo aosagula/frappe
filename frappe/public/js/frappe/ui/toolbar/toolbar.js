@@ -6,10 +6,18 @@ frappe.provide("frappe.search");
 
 frappe.ui.toolbar.Toolbar = class {
 	constructor() {
+		console.log("[navbar] boot.user:", frappe.boot?.user?.name,
+			"| desk_settings:", JSON.stringify(frappe.boot?.desk_settings),
+			"| navbar_settings keys:", Object.keys(frappe.boot?.navbar_settings || {}));
+
+		const navbar_settings = frappe.boot.navbar_settings || { settings_dropdown: [], help_dropdown: [] };
+		if (!navbar_settings.settings_dropdown) navbar_settings.settings_dropdown = [];
+		if (!navbar_settings.help_dropdown) navbar_settings.help_dropdown = [];
+
 		$("header").replaceWith(
 			frappe.render_template("navbar", {
 				avatar: frappe.avatar(frappe.session.user, "avatar-medium"),
-				navbar_settings: frappe.boot.navbar_settings,
+				navbar_settings,
 			})
 		);
 		$(".dropdown-toggle").dropdown();
